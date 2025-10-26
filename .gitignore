@@ -1,15 +1,29 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+@"
+# OS / IDE
 .DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+Thumbs.db
+.idea/
+*.iml
+.vscode/
+
+# Gradle/Build
+.gradle/
+build/
+*/build/
+app/build/
+captures/
+out/
+
+# Android
 local.properties
+*.keystore
+*.jks
+
+# Logs/Temp
+*.log
+*.tmp
+
+# Node / Python (future tools)
+node_modules/
+__pycache__/
+"@ | Out-File -Encoding utf8 .gitignore
