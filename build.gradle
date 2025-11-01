@@ -1,5 +1,8 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-plugins {
-id 'com.android.application' version '8.1.2' apply false
-    id 'com.android.library' version '8.1.2' apply false
+// Root build.gradle — intentionally minimal.
+// Repositories are defined in settings.gradle via dependencyResolutionManagement.
+// Android plugins are resolved via pluginManagement in settings.gradle.
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
 }
+
