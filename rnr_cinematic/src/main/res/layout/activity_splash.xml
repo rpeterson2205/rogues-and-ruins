@@ -1,12 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/splashRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_gravity="center"
-        android:text="RnR Cinematic"
-        android:textSize="24sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <!-- STATIC BACKGROUND (full-bleed) -->
+    <ImageView
+        android:id="@+id/staticBg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/room_bg_town1" />
+
+    <!-- PULSING COLOR, CLIPPED TO LOGO SHAPE (full-bleed) -->
+    <com.newdimension.rnr_cinematic.ui.LogoMaskView
+        android:id="@+id/logoMaskView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- CRISP OUTLINE ABOVE THE MASKED FILL (full-bleed) -->
+    <ImageView
+        android:id="@+id/logoOutline"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo_outline" />
+
+    <!-- BUTTON CLUSTER -->
+    <LinearLayout
+        android:id="@+id/buttonCluster"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStartNew"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="@string/start_new_game" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnContinue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="@string/continue_game" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMapEditor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/map_editor" />
+    </LinearLayout>
+
 </FrameLayout>

@@ -19,6 +19,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "rogues-and-ruins"
 include ':app'
-include ':core-intents'
-include ':rnr-mapeditor'
+include ':core_intents'
+include ':rnr_mapeditor'
 include ':rnr_cinematic'
+include ':rnr_assets'

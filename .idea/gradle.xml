@@ -11,9 +11,10 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/core-intents" />
-            <option value="$PROJECT_DIR$/rnr-mapeditor" />
+            <option value="$PROJECT_DIR$/core_intents" />
+            <option value="$PROJECT_DIR$/rnr_assets" />
             <option value="$PROJECT_DIR$/rnr_cinematic" />
+            <option value="$PROJECT_DIR$/rnr_mapeditor" />
           </set>
         </option>
       </GradleProjectSettings>
