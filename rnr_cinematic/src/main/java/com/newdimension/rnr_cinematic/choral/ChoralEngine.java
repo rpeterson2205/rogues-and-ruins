@@ -1,6 +1,9 @@
 package com.newdimension.rnr_cinematic.choral;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 
 import androidx.annotation.MainThread;
@@ -9,6 +12,7 @@ import androidx.annotation.NonNull;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,12 +32,12 @@ import java.util.Random;
  */
 public final class ChoralEngine {
 
-    private final Context appContext;
-    private final int[] choralResIds;
+    private final Context context;
+    private final String[] choralAssetPaths;
     private final Random rng = new Random();
 
     // One primary player per resource id
-    private final HashMap<Integer, ExoPlayer> primaryPlayers = new HashMap<>();
+    private final HashMap<String, ExoPlayer> primaryPlayers = new HashMap<>();
     // Spillover players created when a primary is already busy
     private final List<ExoPlayer> spillover = new ArrayList<>();
 
@@ -42,9 +46,9 @@ public final class ChoralEngine {
 
     private boolean started = false;
 
-    public ChoralEngine(@NonNull Context context, @NonNull int[] choralResIds) {
-        this.appContext = context.getApplicationContext();
-        this.choralResIds = choralResIds.clone();
+    public ChoralEngine(Context context, String[] choralAssetPaths) {
+        this.context = context;
+        this.choralAssetPaths = choralAssetPaths;
     }
 
     // ------------------------------------------------------------
@@ -88,14 +92,14 @@ public final class ChoralEngine {
     /** Triggered from ThemeCycleEngine on every color transition. */
     @MainThread
     public void onColorTransition() {
-        if (!started || choralResIds.length == 0) return;
+        if (!started || choralAssetPaths.length == 0) return;
 
         // Ensure we have at least 4 left in the bag; if not, reshuffle
         if (bag.size() < 4) refillBag();
 
         // Draw 4 distinct indices from the bag
         List<Integer> picks = new ArrayList<>(4);
-        for (int i = 0; i < Math.min(4, choralResIds.length); i++) {
+        for (int i = 0; i < Math.min(4, choralAssetPaths.length); i++) {
             if (bag.isEmpty()) refillBag();
             picks.add(bag.removeFirst());
         }
@@ -103,8 +107,8 @@ public final class ChoralEngine {
         // Start all 4 simultaneously
         final long now = System.nanoTime();
         for (int idx : picks) {
-            int resId = choralResIds[idx];
-            playOnce(resId, now);
+            String path = choralAssetPaths[idx];  // <-- was int resId = choralResIds[idx];
+            playOnce(path, now);                  // <-- pass String, not int
         }
     }
 
@@ -114,35 +118,33 @@ public final class ChoralEngine {
 
     /** Populate and shuffle the bag with all choral indices. */
     private void refillBag() {
-        List<Integer> all = new ArrayList<>(choralResIds.length);
-        for (int i = 0; i < choralResIds.length; i++) all.add(i);
+        List<Integer> all = new ArrayList<>(choralAssetPaths.length);
+        for (int i = 0; i < choralAssetPaths.length; i++) all.add(i);
         Collections.shuffle(all, rng);
         bag.clear();
         for (int i : all) bag.addLast(i);
     }
 
     private void ensurePrimaries() {
-        for (int resId : choralResIds) {
-            if (!primaryPlayers.containsKey(resId)) {
-                primaryPlayers.put(resId, newPlayer());
+        for (String path : choralAssetPaths) {
+            if (!primaryPlayers.containsKey(path)) {
+                primaryPlayers.put(path, newPlayer());
             }
         }
     }
 
-    private void playOnce(int resId, long syncGroupTs) {
-        ExoPlayer primary = primaryPlayers.get(resId);
-        if (primary == null) {
-            primary = newPlayer();
-            primaryPlayers.put(resId, primary);
-        }
-
-        if (isPlaying(primary)) {
-            // Primary busy → allocate a one-shot spillover player
-            ExoPlayer extra = newPlayer();
-            spillover.add(extra);
-            prepareAndPlay(extra, resId, syncGroupTs, true);
-        } else {
-            prepareAndPlay(primary, resId, syncGroupTs, false);
+    private void playOnce(String assetPath, long startTimeNs) {
+        try {
+            AssetFileDescriptor afd = context.getAssets().openFd(assetPath);
+            MediaPlayer p = new MediaPlayer();
+            p.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            p.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            afd.close();
+            p.setOnCompletionListener(mp -> { mp.release(); /* any cleanup */ });
+            p.prepare();
+            p.start();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -151,11 +153,11 @@ public final class ChoralEngine {
     }
 
     private ExoPlayer newPlayer() {
-        return new ExoPlayer.Builder(appContext).build();
+        return new ExoPlayer.Builder(context).build();
     }
 
     private void prepareAndPlay(ExoPlayer player, int resId, long syncGroupTs, boolean autoRelease) {
-        Uri uri = Uri.parse("android.resource://" + appContext.getPackageName() + "/" + resId);
+        Uri uri = Uri.parse("android.resource://" + context.getPackageName() + "/" + resId);
         MediaItem item = MediaItem.fromUri(uri);
         player.setMediaItem(item);
         player.prepare();

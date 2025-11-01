@@ -1,16 +1,20 @@
 package com.rnr.hub;
 
 import android.os.Bundle;
-import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+import com.newdimension.rnr_cinematic.ui.CinematicFragment;
 
 public class MainActivity extends AppCompatActivity {
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TextView tv = new TextView(this);
-        tv.setText("Rogues & Ruins — Hub");
-        tv.setTextSize(22f);
-        tv.setPadding(48, 48, 48, 48);
-        setContentView(tv);
+        setContentView(R.layout.activity_main);
+
+        if (savedInstanceState == null) {
+            FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+            tx.replace(R.id.container, CinematicFragment.newInstance(), "cinematic");
+            tx.commit();
+        }
     }
 }

@@ -1,20 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.newdimension.rnr_cinematic">
-    <application
-        android:allowBackup="true"
-        android:label="RnR Cinematic"
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.RnrCinematic">
-        <activity
-            android:name=".SplashActivity"
-            android:exported="true"
-            android:theme="@style/Theme.RnrCinematic">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
+<manifest package="com.newdimension.rnr_cinematic"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Library manifests should be minimal; no label/icon/theme/launcher -->
+    <application android:supportsRtl="true" />
 </manifest>
