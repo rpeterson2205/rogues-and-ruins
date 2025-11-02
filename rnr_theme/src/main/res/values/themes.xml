@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- rnr_theme/src/main/res/values/themes.xml -->
+<resources>
+    <!-- Single source of truth -->
+    <style name="Theme.RNR" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- your colors/typography/shape here -->
+    </style>
+
+    <!-- Optional per-screen overlay instead of per-activity themes -->
+    <style name="ThemeOverlay.RNR.Cinematic" parent="">
+        <!-- override a few colors/typography just for this screen -->
+    </style>
+</resources>

@@ -1,17 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.rnr.hub"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:label="RnR"
-        android:theme="@style/Theme.Material3.DayNight.NoActionBar">
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="true"
+        android:supportsRtl="true">
+
+        <!-- Make the cinematic SplashActivity the launcher -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name="com.newdimension.rnr_cinematic.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.RNR">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Keep your host activity if you want, just not as launcher -->
+        <!--
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        -->
     </application>
 </manifest>

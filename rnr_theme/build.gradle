@@ -1,0 +1,22 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'com.newdimension.rnr_theme'
+    compileSdk 34   // ✅ Required
+
+    defaultConfig {
+        minSdk 24
+    }
+
+    // optional but nice for clarity
+    buildFeatures {
+        buildConfig false
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+}

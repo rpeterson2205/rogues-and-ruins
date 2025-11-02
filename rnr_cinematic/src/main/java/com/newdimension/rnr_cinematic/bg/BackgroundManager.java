@@ -21,6 +21,8 @@ public class BackgroundManager {
 
     public BackgroundManager(View root, BackgroundLoader loader) {
         this.loader = loader;
+        // ensure loader is ready
+        this.loader.init(root.getContext().getApplicationContext());
 
         // root is your FrameLayout from activity_splash (we added @+id/root earlier)
         this.parent = (FrameLayout) root;
@@ -44,8 +46,8 @@ public class BackgroundManager {
 
     /** Start next transition at tick. */
     public void startTransition() {
-        String path = loader.next();
-        Bitmap bmp = loader.loadBitmap(path);
+        String path = loader.next(); // shim provided by loader
+        Bitmap bmp = loader.loadBitmap(nextView.getContext(), path); // pass context
         if (bmp == null) return;
         nextView.setImageDrawable(new BitmapDrawable(nextView.getResources(), bmp));
 

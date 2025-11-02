@@ -1,6 +1,7 @@
 package com.newdimension.rnr_cinematic;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
@@ -30,6 +31,8 @@ import com.newdimension.rnr_cinematic.bg.BackgroundManager;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private static final String TAG = "RALPH";
+
     private BackgroundManager bgManager;
     // Six base hues (R,O,Y,G,B,V)
     private static final float[] HUES = new float[]{0f, 30f, 55f, 120f, 210f, 275f};
@@ -47,7 +50,10 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        BackgroundLoader loader = new BackgroundLoader(this);
+        BackgroundLoader loader = BackgroundLoader.get();
+        loader.init(this);
+        Log.i("RALPH", "Indexed backgrounds after init = " + loader.getIndexedCount());
+
         bgManager = new BackgroundManager(findViewById(R.id.splashRoot), loader);
 
         bgManager.startTransition();

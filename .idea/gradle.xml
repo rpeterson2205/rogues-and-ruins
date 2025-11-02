@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/rnr_assets" />
             <option value="$PROJECT_DIR$/rnr_cinematic" />
             <option value="$PROJECT_DIR$/rnr_mapeditor" />
+            <option value="$PROJECT_DIR$/rnr_theme" />
           </set>
         </option>
       </GradleProjectSettings>

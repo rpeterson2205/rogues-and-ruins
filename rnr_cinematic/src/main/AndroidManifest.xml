@@ -1,6 +1,7 @@
-<manifest package="com.newdimension.rnr_cinematic"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- Library manifests should be minimal; no label/icon/theme/launcher -->
-    <application android:supportsRtl="true" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity
+            android:name="com.newdimension.rnr_cinematic.SplashActivity"
+            android:exported="true"/>
+    </application>
 </manifest>

@@ -22,4 +22,5 @@ android {
 dependencies {
     // Usually none; add only what it truly needs.
     implementation 'androidx.annotation:annotation:1.8.2'
+
 }
